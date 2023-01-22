@@ -3,11 +3,16 @@ version: "3.3"
 services:
   web:
     image: libreddit/libreddit:latest
-    restart: always
+    restart: unless-stopped
     container_name: "libreddit"
-    ports:
-      - 8080:8080
+    networks:
+        static:
+            ipv4_address: 172.0.0.26
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "--tries=1", "http://127.0.0.1:80>
+      test: ["CMD", "wget", "--spider", "-q", "--tries=1", "http://127.0.0.1:80"]
       interval: 5m
       timeout: 3s
+
+networks:
+   static:
+       external: true
